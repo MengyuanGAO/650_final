@@ -2,6 +2,7 @@ import main
 import flask
 import pandas as pd
 import tensorflow as tf
+import LogisticRegressionScoring
 
 def init():
     global QUERY, MODEL
@@ -25,6 +26,14 @@ def predicting():
             QUERY = "Why don't poor countries print more money to use for paying for education, etc.?"
             print(QUERY)
         ans = str(main.queryPredict(QUERY, MODEL))
+    return ans
+
+def highlightSentence():
+    global QUERY
+    if QUERY == "":
+        QUERY = "Why don't poor countries print more money to use for paying for education, etc.?"
+        print(QUERY)
+    ans = main.scoring_words(QUERY)
     return ans
 
 def destroy():

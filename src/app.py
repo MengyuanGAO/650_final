@@ -10,7 +10,16 @@ def admin():
 @app.route("/show")
 def show():
     ans = model.predicting()
-    return render_template("show.html", query_show=model.get_query(), result=ans)
+    highlight = model.highlightSentence()
+    query = model.get_query().split()
+    show = ""
+    for ind, ii in enumerate(query):
+        if ind in highlight:
+            show += "<mark>" + ii + "</mark>"
+        else:
+            show += ii
+        show += " "
+    return render_template("show.html", query_show=show, result=ans)
 
 @app.route("/postentry", methods=["POST"])
 def postentry():
