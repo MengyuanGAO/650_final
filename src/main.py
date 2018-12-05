@@ -10,7 +10,7 @@ from nltk.corpus import stopwords
 stopwords = set(stopwords.words('english'))
 
 def modelInit():
-    model = load_model('../data/my_model2.h5')
+    model = load_model('../data/CNN_flip.h5')
     return model
 
 def queryPredict(query, model, maxlen=70, best_thresh=0.5):
@@ -27,10 +27,11 @@ def queryPredict(query, model, maxlen=70, best_thresh=0.5):
 
 
 def scoring_words(query='Has the United States become the largest dictatorship in the world?'):
+    thres = 1.0
     # preprocessing
     tokens = word_tokenize(query.lower())
 
-    with open('../data/lg_score_tfidf.pickle', 'rb') as handle:
+    with open('../data/lg_score.pickle', 'rb') as handle:
         b = pickle.load(handle)
 
     scores = [b[t] if t in b else 0 for t in tokens]
@@ -38,7 +39,7 @@ def scoring_words(query='Has the United States become the largest dictatorship i
     #     import numpy as np
     #     arr = np.array(scores)
     #     indices = arr.argsort()[-5:][::-1]
-    indices = [scores.index(ii) for ii in scores if (ii >= 3.0) and (tokens[scores.index(ii)] not in stopwords)]
+    indices = [scores.index(ii) for ii in scores if (ii >= thres) and (tokens[scores.index(ii)] not in stopwords)]
     words = list(set([tokens[i] for i in indices]))
     print(words)
     ans = []

@@ -11,6 +11,8 @@ def admin():
 def show():
     ans = model.predicting()
     highlight = model.highlightSentence()
+    if ans == '0':
+        highlight = []
     query = model.get_query().split()
     show = ""
     for ind, ii in enumerate(query):
